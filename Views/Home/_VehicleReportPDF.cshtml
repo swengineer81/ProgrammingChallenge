@@ -1,0 +1,83 @@
+﻿@model IEnumerable<ProgrammingChallange.Models.VehicleDataReport>
+
+@{
+
+    ViewBag.title = "Vehicle PDF Report";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*This view is used for displaying the PDF version of the _VehicleReport view. This view has the same data of the _VehicleReport but includes 
+  no HTML controls*@
+@if (Model != null)
+{
+    var sortedVehiclesyears = Model.OrderByDescending(d => d.year).Select(x => x.year).Distinct();
+    var grandMSRPTotal = Model.Select(y => y.msrp).Sum();
+    var totalListPrice = Model.Select(z => z.listPrice).Sum();
+
+    //The report header has been modified from what's shown on the index page to print better for PDF
+    <p/>
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="text-right">Date: @DateTime.Now.ToString("MM/dd/yyyy")</h3>
+            <h2 class="text-center">Vehicle Report</h2>
+        </div>
+    </div>
+    <p />
+    <table class="table table-borderless table-striped">
+        <tbody>
+            @foreach (var sortedYear in sortedVehiclesyears)
+            {
+                <tr class="info">
+                    <td class="year">
+                        @sortedYear
+                    </td>
+                </tr>
+
+
+
+
+                foreach (var vehicle in Model.Where(x => x.year == sortedYear).OrderBy(k => k.make))
+                {
+
+
+                    <tr>
+                        <td class="colpad"></td>
+                        <td class="colpad">@vehicle.make</td>
+                        <td>@vehicle.model</td>
+                        <td>MSRP: @string.Format("{0:C}", vehicle.msrp)</td>
+                        <td>List Price: @string.Format("{0:C}", vehicle.listPrice)</td>
+
+                    </tr>
+
+                }
+
+
+
+
+
+
+
+            }
+        </tbody>
+    </table>
+
+
+
+    <div class="row">
+        <div class="col-sm-12 year">----------GrandTotal----------</div>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-12 year colpad">MSRP: @string.Format("{0:C}", @grandMSRPTotal)</div>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-12 year colpad">ListPrice: @string.Format("{0:C}", @totalListPrice)</div>
+
+    </div>
+
+
+
+}
+-------------------------------End Of Report-------------------------------------------------
+
+

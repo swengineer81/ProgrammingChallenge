@@ -1,0 +1,63 @@
+﻿
+@model IEnumerable<ProgrammingChallange.Models.VehicleDataReport>
+
+@{
+    ViewBag.Title = "Programming Challenge";
+}
+
+<div class="jumbotron text-center">
+    <h2>Vehicle Report Programming Challenge</h2>
+
+</div>
+
+@*Form that accepts a file of type .csv or .txt and a tax rate of 5 characters inclusive of one decimal point*@
+@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    @*<div class="row popover-title">
+            <div class="col-md-12 text-left">
+                <h2>Welcome</h2>
+            </div>
+        </div>*@
+
+    <div class="form-group">
+        <div class="row">
+            <div class="custom-file">
+                <label class="custom-file-label" for="dataSourceFile">Select Vehicle File</label>
+                <input type="file" name="dataFile" accept=".csv,.txt" class="custom-file-input" title="Select Vehicle File(CSV or Text)" id="dataSourceFile" required />
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div>
+                <label>Enter Tax Rate: </label><input type="text" class="form-control" name="taxRate" id="taxRate" maxlength="5" required placeholder="0.00" />
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div>
+                <input type="submit" value="Process Report" />
+            </div>
+        </div>
+    </div>
+
+
+}
+<p />
+@*Vehicle Data Report HTML*@
+<div class="center-block">
+
+    @{
+        Html.RenderPartial("_VehicleReport", Model);
+    }
+</div>
+
+
+
+

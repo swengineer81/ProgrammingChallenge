@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var errorMessage = ViewData["errorMessage"];
+}
+
+<h2>Houston: We Have An Error</h2>
+
+<div>
+    <label class="alert-danger">@errorMessage </label> : Please alert me and I will look into this issue.
+</div>
+
